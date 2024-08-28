@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good and Bad Examples - Criterion 11.10</title>
+    <style>
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .example {
+            margin-bottom: 40px;
+        }
+        .example label span {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Good Example for Criterion 11.10 -->
+    <div class="example">
+        <h2>Good Example - Criterion 11.10</h2>
+        <form id="goodForm">
+            <label for="goodName">Name <span>*</span></label>
+            <input type="text" id="goodName" name="name" aria-required="true" required>
+            <br><br>
+            <label for="goodEmail">Email <span>*</span></label>
+            <input type="email" id="goodEmail" name="email" aria-required="true" required>
+            <br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Bad Example for Criterion 11.10 -->
+    <div class="example">
+        <h2>Bad Example - Criterion 11.10</h2>
+        <form id="badForm">
+            <label for="badName">Name</label>
+            <input type="text" id="badName" name="name">
+            <br><br>
+            <label for="badEmail">Email</label>
+            <input type="email" id="badEmail" name="email">
+            <br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('goodForm').addEventListener('submit', function(event) {
+            let valid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+
+            // Check required fields
+            document.querySelectorAll('input[required]').forEach(input => {
+                if (!input.value) {
+                    valid = false;
+                    let error = document.createElement('div');
+                    error.className = 'error-message';
+                    error.textContent = `${input.previousElementSibling.textContent} is required.`;
+                    input.parentElement.appendChild(error);
+                }
+            });
+
+            if (!valid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    </script>
+</body>
+</html>
